@@ -24,7 +24,7 @@ class ArtifactoryMetricsUpdater:
             date_ago = datetime.datetime.now() - datetime.timedelta(
                 minutes=minutes_ago)
 
-            metrics.creations(
+            metrics.created(
                 self.__api_client.search_created_since(date_ago),
                 str(minutes_ago))
 
@@ -32,6 +32,6 @@ class ArtifactoryMetricsUpdater:
             date_ago = datetime.datetime.now() - datetime.timedelta(
                 minutes=minutes_ago)
 
-            metrics.downloads(
+            metrics.downloaded(
                 self.__api_client.search_downloaded_since(date_ago),
                 str(minutes_ago))

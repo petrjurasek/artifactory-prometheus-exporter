@@ -11,10 +11,10 @@ class ArtifactoryMetrics:
                                "Licence information", ['expires'])
         self.__version = Gauge("artifactory_system_revision",
                                "Version information", ['version'])
-        self.__creations = Gauge("artifactory_search_creations",
-                                 "Created artifacts", ['minutes_ago'])
-        self.__downloads = Gauge("artifactory_search_downloads",
-                                 "Downloaded artifacts", ['minutes_ago'])
+        self.__created = Gauge("artifactory_artifacts_created",
+                               "Created artifacts", ['minutes_ago'])
+        self.__downloaded = Gauge("artifactory_artifacts_downloaded",
+                                  "Downloaded artifacts", ['minutes_ago'])
 
     def users(self, count: int, realm: str):
         self.__users.labels(realm=realm).set(count)
@@ -28,8 +28,8 @@ class ArtifactoryMetrics:
     def version(self, revision: int, version: str):
         self.__version.labels(version=version).set(revision)
 
-    def creations(self, count: int, minutes_ago: str):
-        self.__creations.labels(minutes_ago=minutes_ago).set(count)
+    def created(self, count: int, minutes_ago: str):
+        self.__created.labels(minutes_ago=minutes_ago).set(count)
 
-    def downloads(self, count: int, minutes_ago: str):
-        self.__downloads.labels(minutes_ago=minutes_ago).set(count)
+    def downloaded(self, count: int, minutes_ago: str):
+        self.__downloaded.labels(minutes_ago=minutes_ago).set(count)
