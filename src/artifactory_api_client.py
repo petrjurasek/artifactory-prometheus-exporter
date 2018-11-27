@@ -39,18 +39,15 @@ class ArtifactoyApiClient:
         return version['revision'], version['version']
 
     def search_created_since(self, since: datetime) -> int:
-        response = self.__request(
-            '/search/dates?dateFields=created&from={}000'.format(
-                since.strftime("%s")))
-        if response[1] == 200:
-            return len(response[0]['results'])
-
-        return 0
+        return self.__search(since, 'created')
 
     def search_downloaded_since(self, since: datetime) -> int:
+        return self.__search(since, 'lastDownloaded')
+
+    def __search(self, since: datetime, fields: str) -> int:
         response = self.__request(
-            '/search/dates?dateFields=lastDownloaded&from={}000'.format(
-                since.strftime("%s")))
+            '/search/dates?dateFields={}&from={}000'.format(
+                fields, since.strftime("%s")))
         if response[1] == 200:
             return len(response[0]['results'])
 
