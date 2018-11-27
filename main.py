@@ -16,7 +16,8 @@ from artifactory_metrics_updater import ArtifactoryMetricsUpdater
 parameters = configargparse.ArgParser()
 parameters.add('--app-port', env_var='APP_PORT', default=9600, type=int)
 parameters.add('--app-interval', env_var='APP_INTERVAL', default=60, type=int)
-parameters.add('--app-log-level', env_var='APP_LOG_LEVEL', default=logging.INFO, type=str)
+parameters.add(
+    '--app-log-level', env_var='APP_LOG_LEVEL', default=logging.INFO, type=str)
 parameters.add(
     '--artifactory-url', env_var='ARTIFACTORY_URL', type=str, required=True)
 parameters.add(
@@ -28,7 +29,11 @@ parameters.add(
     required=True)
 options = parameters.parse_args()
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%d %I:%M:%S', level=options.app_log_level, stream=sys.stdout)
+logging.basicConfig(
+    format='%(asctime)s %(levelname)s: %(message)s',
+    datefmt='%Y-%m-%d %I:%M:%S',
+    level=options.app_log_level,
+    stream=sys.stdout)
 logger = logging.getLogger()
 
 app_options = AppOptions(options.app_port, options.app_interval)
