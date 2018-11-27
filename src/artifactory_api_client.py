@@ -38,6 +38,24 @@ class ArtifactoyApiClient:
 
         return version['revision'], version['version']
 
+    def search_created_since(self, since: datetime) -> int:
+        response = self.__request(
+            '/search/dates?dateFields=created&from={}000'.format(
+                since.strftime("%s")))
+        if response[1] == 200:
+            return len(response[0]['results'])
+
+        return 0
+
+    def search_downloaded_since(self, since: datetime) -> int:
+        response = self.__request(
+            '/search/dates?dateFields=lastDownloaded&from={}000'.format(
+                since.strftime("%s")))
+        if response[1] == 200:
+            return len(response[0]['results'])
+
+        return 0
+
     def __request(self, url: str):
         auth = HTTPBasicAuth(self.__options.user(), self.__options.password())
         response = requests.get(self.__options.api_url(url), auth=auth)

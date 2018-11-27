@@ -6,8 +6,8 @@ sys.path.append(
 import configargparse
 import asyncio
 from prometheus_client import start_http_server
-from artifactory_metrics import ArtifactoryMetrics
 from app_options import AppOptions
+from artifactory_metrics import ArtifactoryMetrics
 from artifactory_options import ArtifactoryOptions
 from artifactory_api_client import ArtifactoyApiClient
 from artifactory_metrics_updater import ArtifactoryMetricsUpdater
