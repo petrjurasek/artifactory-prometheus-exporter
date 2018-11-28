@@ -44,6 +44,19 @@ class ArtifactoyApiClient:
     def search_downloaded_since(self, since: datetime) -> int:
         return self.__search(since, 'lastDownloaded')
 
+    def repositories(self):
+        repositories = self.__request(
+            '/storageinfo')[0]['repositoriesSummaryList']
+
+        counts = {}
+
+        for repository in repositories:
+            if repository['repoType'] != 'NA':
+                counts[repository['repoKey']] = repository[
+                    'itemsCount'], repository['repoType']
+
+        return counts
+
     def __search(self, since: datetime, fields: str) -> int:
         response = self.__request(
             '/search/dates?dateFields={}&from={}000'.format(

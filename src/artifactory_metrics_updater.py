@@ -35,3 +35,7 @@ class ArtifactoryMetricsUpdater:
             metrics.downloaded(
                 self.__api_client.search_downloaded_since(date_ago),
                 str(minutes_ago))
+
+        repositories = self.__api_client.repositories()
+        for repository, data in repositories.items():
+            metrics.repositories(data[0], repository, data[1])

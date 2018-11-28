@@ -15,6 +15,9 @@ class ArtifactoryMetrics:
                                "Created artifacts", ['minutes_ago'])
         self.__downloaded = Gauge("artifactory_artifacts_downloaded",
                                   "Downloaded artifacts", ['minutes_ago'])
+        self.__repositories = Gauge("artifactory_repository_files_count",
+                                    "Artifactory repository file count",
+                                    ['key', 'type'])
 
     def users(self, count: int, realm: str):
         self.__users.labels(realm=realm).set(count)
@@ -33,3 +36,6 @@ class ArtifactoryMetrics:
 
     def downloaded(self, count: int, minutes_ago: str):
         self.__downloaded.labels(minutes_ago=minutes_ago).set(count)
+
+    def repositories(self, count: int, key: str, type: str):
+        self.__repositories.labels(key=key, type=type).set(count)

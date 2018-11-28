@@ -20,6 +20,7 @@ This exporter needs following environment variables to run correctly:
 
 * ```APP_PORT``` - the port on which exporter listens, defaults ot 9600. 
 * ```APP_INTERVAL``` - interval in seconds for getting metrics from Artifactory REST API.
+* ```APP_LOG_LEVEL``` - log level.
 
 ## Docker
 
