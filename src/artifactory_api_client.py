@@ -38,11 +38,11 @@ class ArtifactoyApiClient:
 
         return version['revision'], version['version']
 
-    def search_created_since(self, since: datetime) -> int:
-        return self.__search(since, 'created')
+    def search_created_since(self, since: datetime, key: str) -> int:
+        return self.__search(since, 'created', key)
 
-    def search_downloaded_since(self, since: datetime) -> int:
-        return self.__search(since, 'lastDownloaded')
+    def search_downloaded_since(self, since: datetime, key: str) -> int:
+        return self.__search(since, 'lastDownloaded', key)
 
     def repositories(self):
         repositories = self.__request(
@@ -57,10 +57,10 @@ class ArtifactoyApiClient:
 
         return counts
 
-    def __search(self, since: datetime, fields: str) -> int:
+    def __search(self, since: datetime, fields: str, key: str) -> int:
         response = self.__request(
-            '/search/dates?dateFields={}&from={}000'.format(
-                fields, since.strftime("%s")))
+            '/search/dates?dateFields={}&from={}000&repos={}'.format(
+                fields, since.strftime("%s"), key))
         if response[1] == 200:
             return len(response[0]['results'])
 

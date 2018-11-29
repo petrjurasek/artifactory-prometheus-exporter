@@ -12,9 +12,10 @@ class ArtifactoryMetrics:
         self.__version = Gauge("artifactory_system_revision",
                                "Version information", ['version'])
         self.__created = Gauge("artifactory_artifacts_created",
-                               "Created artifacts", ['minutes_ago'])
+                               "Created artifacts", ['minutes_ago', 'key'])
         self.__downloaded = Gauge("artifactory_artifacts_downloaded",
-                                  "Downloaded artifacts", ['minutes_ago'])
+                                  "Downloaded artifacts",
+                                  ['minutes_ago', 'key'])
         self.__repositories = Gauge("artifactory_repository_files_count",
                                     "Artifactory repository file count",
                                     ['key', 'type'])
@@ -31,11 +32,11 @@ class ArtifactoryMetrics:
     def version(self, revision: int, version: str):
         self.__version.labels(version=version).set(revision)
 
-    def created(self, count: int, minutes_ago: str):
-        self.__created.labels(minutes_ago=minutes_ago).set(count)
+    def created(self, count: int, minutes_ago: str, key: str):
+        self.__created.labels(minutes_ago=minutes_ago, key=key).set(count)
 
-    def downloaded(self, count: int, minutes_ago: str):
-        self.__downloaded.labels(minutes_ago=minutes_ago).set(count)
+    def downloaded(self, count: int, minutes_ago: str, key: str):
+        self.__downloaded.labels(minutes_ago=minutes_ago, key=key).set(count)
 
     def repositories(self, count: int, key: str, type: str):
         self.__repositories.labels(key=key, type=type).set(count)

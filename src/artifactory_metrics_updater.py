@@ -20,22 +20,20 @@ class ArtifactoryMetricsUpdater:
         version = self.__api_client.version()
         metrics.version(version[0], version[1])
 
-        for minutes_ago in self.__search_minutes_intervals:
-            date_ago = datetime.datetime.now() - datetime.timedelta(
-                minutes=minutes_ago)
-
-            metrics.created(
-                self.__api_client.search_created_since(date_ago),
-                str(minutes_ago))
-
-        for minutes_ago in self.__search_minutes_intervals:
-            date_ago = datetime.datetime.now() - datetime.timedelta(
-                minutes=minutes_ago)
-
-            metrics.downloaded(
-                self.__api_client.search_downloaded_since(date_ago),
-                str(minutes_ago))
-
         repositories = self.__api_client.repositories()
         for repository, data in repositories.items():
             metrics.repositories(data[0], repository, data[1])
+
+            for minutes_ago in self.__search_minutes_intervals:
+                date_ago = datetime.datetime.now() - datetime.timedelta(
+                    minutes=minutes_ago)
+
+                created = self.__api_client.search_created_since(
+                    date_ago, repository)
+
+                metrics.created(created, str(minutes_ago), repository)
+
+                downloaded = self.__api_client.search_downloaded_since(
+                    date_ago, repository)
+
+                metrics.downloaded(downloaded, str(minutes_ago), repository)
