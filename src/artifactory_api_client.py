@@ -15,7 +15,7 @@ class ArtifactoyApiClient:
         realms = {}
 
         for user in users:
-            realm = user['realm']
+            realm = user.get('realm', 'none')
             if realm not in realms:
                 realms[realm] = 0
             realms[realm] += 1
