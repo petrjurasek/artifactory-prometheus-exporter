@@ -3,6 +3,7 @@ from requests.auth import HTTPBasicAuth
 import json
 from datetime import datetime
 from artifactory_options import ArtifactoryOptions
+from num_transform import bytesstr2float,  percentstr2float, remove_comma
 
 
 class ArtifactoyApiClient:
@@ -44,6 +45,11 @@ class ArtifactoyApiClient:
     def search_downloaded_since(self, since: datetime, key: str) -> int:
         return self.__search(since, 'lastDownloaded', key)
 
+    def metadata(self):
+        storage_info = self.__request(
+            '/storageinfo')[0]
+        return storage_info
+
     def repositories(self):
         repositories = self.__request(
             '/storageinfo')[0]['repositoriesSummaryList']
@@ -53,7 +59,7 @@ class ArtifactoyApiClient:
         for repository in repositories:
             if repository['repoType'] != 'NA':
                 counts[repository['repoKey']] = repository[
-                    'itemsCount'], repository['repoType']
+                    'itemsCount'], repository['repoType'], bytesstr2float(repository['usedSpace'])
 
         return counts
 
