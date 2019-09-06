@@ -31,7 +31,7 @@ class ArtifactoryMetrics:
                                           "freeSpace", ['type', 'dir'])
 
         self.__created = Gauge("artifactory_artifacts_created",
-                               "binariesCount", ['minutes_ago', 'key'])
+                               "Created artifacts", ['minutes_ago', 'key'])
         self.__downloaded = Gauge("artifactory_artifacts_downloaded",
                                   "Downloaded artifacts",
                                   ['minutes_ago', 'key'])
