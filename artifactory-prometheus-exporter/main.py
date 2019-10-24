@@ -53,7 +53,7 @@ async def update_metrics():
         await asyncio.sleep(app_options.interval())
 
 
-if __name__ == "__main__":
+def main():
     loop = asyncio.get_event_loop()
     start_http_server(app_options.port())
 
@@ -65,3 +65,7 @@ if __name__ == "__main__":
         loop.close()
     finally:
         loop.close()
+
+
+if __name__ == "__main__":
+    main()
