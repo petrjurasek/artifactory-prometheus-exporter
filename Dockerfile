@@ -18,4 +18,3 @@ COPY ./ /app
 EXPOSE 9600
 
 ENTRYPOINT ["python", "main.py"]
-CMD ["-h"]
