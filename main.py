@@ -48,6 +48,15 @@ artifactory_api_client = ArtifactoyApiClient(artifactory_options)
 artifactory_metrics_updater = ArtifactoryMetricsUpdater(artifactory_api_client)
 
 
+def exception_handler(loop, context):
+    loop.default_exception_handler(context)
+
+    exception = context.get('exception')
+    if isinstance(exception, Exception):
+        logger.error(exception)
+        loop.stop()
+
+
 async def update_metrics():
     while True:
         logger.info('Updating metrics')
@@ -60,11 +69,14 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     start_http_server(app_options.port())
 
+    loop.set_exception_handler(exception_handler)
     loop.create_task(update_metrics())
     try:
         loop.run_forever()
 
     except KeyboardInterrupt:
+        logger.info('Caught keyboard interrupt')
         loop.close()
     finally:
+        logger.info('Closing loop')
         loop.close()
